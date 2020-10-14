@@ -31,4 +31,4 @@ for argument in "${vg_args[@]}"; do
 done
 
 echo "---------- ( Final Result ) ----------"
-echo "Passed: Failed:${ERR}"
+echo "Passed:$( expr ${TOTAL} - ${ERR}) Failed:${ERR}"
