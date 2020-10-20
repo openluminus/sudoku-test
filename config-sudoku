@@ -1,11 +1,12 @@
 #Your sudoku project folder
-PROJECT_PATH="../../sudoku/"
+PROJECT_PATH="../../"
 
 #Stores the previous working directory
 PREVIOUS_PWD=${PWD}
+ERROR_FILE_TEST=${PREVIOUS_PWD}/stderr_file
 
 #Your test folder
-TEST_PATH="../grid-parser"
+TEST_PATH="../grid-parser/"
 
 EXIT_SUCCESS=0
 EXIT_FAILURE=1

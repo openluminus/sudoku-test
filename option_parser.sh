@@ -1,4 +1,5 @@
 #!/bin/bash
+. config-sudoku
 
 test_exit_sucess(){
 	((EXIT_SUCCESS == $1)) && echo -e "*Passed*\n"  && return
@@ -29,16 +30,7 @@ test_file(){
 	fi
 }
 
-PROJECT_PATH="../"
-EXEC_PATH=$PWD
-ERROR_FILE_TEST=$EXEC_PATH/stderr_file
-GRID_PATH=$EXEC_PATH/grid-parser
-
-EXIT_SUCCESS=0
-EXIT_FAILURE=1
-
-ERR=0
-
+echo "moving to ${PROJECT_PATH}"
 cd $PROJECT_PATH
 echo -e '---------- ( Build System ) ----------\n'
 
@@ -124,32 +116,32 @@ test_exit_sucess $?
 
 echo "* Check './sudoku grid-01-size_1.sku'"
 echo "Expected result: EXIT_SUCCESS"
-./sudoku $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_sucess $?
 
 echo "* Check './sudoku grid-01-size_1.sku grid-02-size_4.sku grid-03-size_9.sku grid-04-size_16.sku'"
 echo "Expected result: EXIT_SUCCESS"
-./sudoku $GRID_PATH/grid-01-size_1.sku $GRID_PATH/grid-02-size_4.sku $GRID_PATH/grid-03-size_9.sku $GRID_PATH/grid-04-size_16.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku $TEST_PATH/grid-01-size_1.sku $TEST_PATH/grid-02-size_4.sku $TEST_PATH/grid-03-size_9.sku $TEST_PATH/grid-04-size_16.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_sucess $?
 
 echo "* Check './sudoku -v grid-01-size_1.sku grid-02-size_4.sku grid-03-size_9.sku grid-04-size_16.sku'"
 echo "Expected result: EXIT_SUCCESS"
-./sudoku -v $GRID_PATH/grid-01-size_1.sku $GRID_PATH/grid-02-size_4.sku $GRID_PATH/grid-03-size_9.sku $GRID_PATH/grid-04-size_16.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku -v $TEST_PATH/grid-01-size_1.sku $TEST_PATH/grid-02-size_4.sku $TEST_PATH/grid-03-size_9.sku $TEST_PATH/grid-04-size_16.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_sucess $?
 
 echo "* Check './sudoku -x grid-01-size_1.sku'"
 echo "Expected result: EXIT_FAILURE and stderr is written"
-./sudoku -x $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku -x $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_failure $?
 
 echo "* Check './sudoku -v grid-01-size_1.sku'"
 echo "Expected result: EXIT_SUCCESS"
-./sudoku -v $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku -v $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_sucess $?
 
 echo "* Check './sudoku --verbose grid-01-size_1.sku'"
 echo "Expected result: EXIT_SUCCESS"
-./sudoku --verbose $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku --verbose $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_sucess $?
 
 echo "* Check './sudoku -o'"
@@ -164,34 +156,34 @@ test_exit_failure $?
 
 echo "* Check './sudoku -o test.sku'"
 echo "Expected result: EXIT_FAILURE and stderr is written"
-./sudoku -o $EXEC_PATH/test.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku -o $PREVIOUS_PWD/test.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_failure $?
 
 echo "* Check './sudoku --output test.sku'"
 echo "Expected result: EXIT_FAILURE and stderr is written"
-./sudoku --output $EXEC_PATH/test.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku --output $PREVIOUS_PWD/test.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_failure $?
 
 echo "* Check './sudoku -o test.sku grid-01-size_1.sku'"
 echo "Expected result: EXIT_SUCCESS"
-./sudoku -o $EXEC_PATH/test.sku $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku -o $PREVIOUS_PWD/test.sku $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_sucess $?
 
 echo "* Check './sudoku --output test.sku grid-01-size_1.sku'"
 echo "Expected result: EXIT_SUCCESS"
-./sudoku --output $EXEC_PATH/test.sku $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku --output $PREVIOUS_PWD/test.sku $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 test_exit_sucess $?
 
 
 echo "* Check './sudoku -o /test.sku grid-01-size_1.sku'"
 echo "Expected result: EXIT_FAILURE and stderr is written"
-./sudoku -o /test.sku $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku -o /test.sku $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 #test if file was create ?
 test_exit_failure $?
 
 echo "* Check './sudoku --output /test.sku grid-01-size_1.sku'"
 echo "Expected result: EXIT_FAILURE and stderr is written"
-./sudoku --output /test.sku $GRID_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
+./sudoku --output /test.sku $TEST_PATH/grid-01-size_1.sku 1> /dev/null 2> $ERROR_FILE_TEST
 #test if file was create ?
 test_exit_failure $?
 
@@ -299,4 +291,4 @@ test_exit_failure $?
 
 echo "------- ( Final result ) --------"
 echo "Passed: ;Failed: $ERR"
-cd $EXEC_PATH
+cd $PREVIOUS_PWD
